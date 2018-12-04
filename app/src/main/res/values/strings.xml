@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Note</string>
+    <string name="main">Activity 1</string>
+    <string name="mainButton">Activity 1 button</string>
+    <string name="second">Activity 2</string>
+    <string name="third">Activity 3</string>
+    <string name="fourth">Activity 4</string>
+    <string name="fourth2">Activity 4 text2</string>
+    <string name="second_1">to</string>
+    <string name="second_2">from</string>
+    <string name="fourthButton">Button</string>
+    <string name="thirdButton">Button</string>
+    <string name="secondButton">Button</string>
+    <string name="fragmentButton_1">Button 1</string>
+    <string name="fragmentButton_2">Button 2</string>
+    <string name="fragmentButton_3">Button 3</string>
+    <string name="fragmentButton_4">Button 4</string>
+    <string name="fragmentText">fragmentText</string>
+    <string name="colorText">red</string>
+    <string name="newButtonNew">Create</string>
+    <string name="newButtonSettings">Settings</string>
+    <string name="settings_MainText">Set Settings</string>
+    <string name="settings_switch1">Setting 1</string>
+    <string name="settings_switch2">Setting 2</string>
+    <string name="newButtonSave">Save</string>
+    <string name="newTextHeader">Header</string>
+    <string name="newTextExampleHeader">input header</string>
+    <string name="newTextBody">Body</string>
+    <string name="newTextExampleBody">Input body</string>
+    <string name="newButtonUpdate">Update</string>
+    <string name="newButtonCancel">Cancel</string>
+    <string name="EditTextHeader">EditTextHeader</string>
+    <string name="EditTextBody">EditTextBody</string>
+    <string name="newButtonOK">OK</string>
+
+
+</resources>
