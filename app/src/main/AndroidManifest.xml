@@ -19,15 +19,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ThirdActivity">    </activity>
-        <activity android:name=".SecondActivity"></activity>
-
-        <activity android:name=".FourthActivity"></activity>
+        <activity android:name=".ThirdActivity"></activity>
+        <activity android:name=".SecondActivity" />
+        <activity android:name=".FourthActivity" />
 
         <service
             android:name=".MyIntentServiceOne"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <receiver
+            android:name=".MySettingsReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

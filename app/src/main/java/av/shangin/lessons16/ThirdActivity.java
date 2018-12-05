@@ -26,7 +26,7 @@ public class ThirdActivity extends AppCompatActivity {
             mMainList = new Intent(ThirdActivity.this, MainActivity.class);
             int pos =saveItem();
 
-            mMainList.putExtra(MainActivity.POS,pos);
+            mMainList.putExtra(Param.POS,pos);
 
             startActivity(mMainList);
         }

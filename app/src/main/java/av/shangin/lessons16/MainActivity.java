@@ -1,18 +1,20 @@
 package av.shangin.lessons16;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     //MainList newlistlayout
 
-    public final static String POS = "POSITION";
+
 
     RecyclerView recyclerView;
 
@@ -20,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mSettingButton;
     private Intent mNewIntent;
     private Intent mSettingIntent;
-
+    private GetSettingsReceiver mMyBroadcastReceiver;
+    private SettingsBin mSettingBin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,20 +31,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.newlistlayout);
 
 
-        Intent mFromSave = getIntent();
-
-        int position =-1;
-        Uri myUri =mFromSave.getData();
-
-
-        if(myUri==null)
-        {
-            position =mFromSave.getIntExtra(POS,-1);
-        }
-
-        if (position>0) {
-            //показать в списке этот элемент
-        }
 
         recyclerView = findViewById(R.id.NewMainList);
         recyclerView.setAdapter(new RecycleListAdapter());
@@ -69,12 +58,53 @@ public class MainActivity extends AppCompatActivity {
         mSettingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //go to Setting activity
-                mSettingIntent = new Intent(MainActivity.this, SecondActivity.class);
 
-                //mNewIntent.putExtra(msfString,"MainActivity1");
+
+                //Запуск сервиса настройки без параметра, что бы достать настроки
+                MyIntentServiceOne.startActionSetting(MainActivity.this,null);
+
+                //Тут переход в другой активити
+                mSettingIntent = new Intent(MainActivity.this, SecondActivity.class);
                 startActivity(mSettingIntent);
             }
         });
+        Log.d(Param.TAG, "onCreate MainActivity ");
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mMyBroadcastReceiver = new GetSettingsReceiver(new ViewCallBackSettingMain());
+
+        // регистрируем BroadcastReceiver
+        IntentFilter intentFilter = new IntentFilter(Param.FILTER_ACTION_GET_SETTING);
+        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(mMyBroadcastReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mMyBroadcastReceiver);
+    }
+
+
+
+    public class ViewCallBackSettingMain implements ISettings {
+
+        public void setSetting(String param4)
+        {
+             if (!param4.equals("")){
+                mSettingBin = SettingsBin.FromJSON(param4);
+                 Log.d(Param.TAG, "ViewCallBackSettingMain setSetting  ismIsBlackOnWhite=" +mSettingBin.ismIsBlackOnWhite()+" ismIsBigFont="+mSettingBin.ismIsBigFont());
+
+             }
+
+
+        }
+    }
+
+
+
 }
