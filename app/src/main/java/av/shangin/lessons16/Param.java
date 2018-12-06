@@ -14,7 +14,8 @@ public final class Param {
     public final static String ACTION_LOADLIST = "av.shangin.lessons16.action.LOADLIST";
     public final static String ACTION_CREATE = "av.shangin.lessons16.action.CREATE";
     public final static String ACTION_UPDATE = "av.shangin.lessons16.action.UPDATE";
-    public final static String ACTION_SETTING = "av.shangin.lessons16.action.SETTING";
+    public final static String ACTION_GETSETTING = "av.shangin.lessons16.action.SETTING";
+    public final static String ACTION_SETSETTING = "av.shangin.lessons16.action.SETSETTING";
 
 
     //param to Receiver_action
@@ -24,8 +25,14 @@ public final class Param {
     public final static String FILTER_ACTION_GET_SETTING = "av.shangin.lessons16.action.FILTER_ACTION_GET_SETTING";
     public final static String FILTER_ACTION_UPDATE_SETTING = "av.shangin.lessons16.action.FILTER_ACTION_UPDATE_SETTING";
 
+    //SharedPreferences
+    public static final String APP_PREFERENCES = "NoteSettings";
+    public static final String ISBLACKONWHITE = "IsBlackOnWhite";
+    public static final String ISBIGFONT = "IsBigFont";
+
+
     public enum ActionEnum {
-        List, Update, Create, Settings,Other
+        List, Update, Create, GetSettings,SetSettings,Other
     }
 
     // help name
@@ -46,8 +53,12 @@ public final class Param {
             return ActionEnum.Update;
         }
 
-        if (ACTION_SETTING.equals(action)){
-            return ActionEnum.Settings;
+        if (ACTION_GETSETTING.equals(action)){
+            return ActionEnum.GetSettings;
+        }
+
+        if (ACTION_SETSETTING.equals(action)){
+            return ActionEnum.SetSettings;
         }
 
         return ActionEnum.Other;

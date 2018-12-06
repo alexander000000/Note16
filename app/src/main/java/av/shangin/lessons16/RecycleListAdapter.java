@@ -1,5 +1,7 @@
 package av.shangin.lessons16;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -48,6 +50,8 @@ public class RecycleListAdapter extends RecyclerView.Adapter<RecycleListAdapter.
     }
 
     private void InitColor(){
+
+
         for (int red=0; red<LIMIT; red+=STEP){
             for (int green=0; green<LIMIT; green+=STEP){
                 for (int blue=0; blue<LIMIT; blue+=STEP){
@@ -67,6 +71,7 @@ public class RecycleListAdapter extends RecyclerView.Adapter<RecycleListAdapter.
         // это элементы с view элемента списка
         private TextView ColorName;
         private View preview;
+        private View mItemLayout;
         private boolean isClick=false;
 
 
@@ -74,12 +79,25 @@ public class RecycleListAdapter extends RecyclerView.Adapter<RecycleListAdapter.
             super(itemView);
             ColorName = itemView.findViewById(R.id.textVeiwInItem);
             preview = itemView.findViewById(R.id.viewInItem);
+            mItemLayout = itemView.findViewById(R.id.itemOfList);
+
+
+            //if (mItemLayout!=null) mItemLayout.setBackgroundColor(mSettingBin.ismIsBlackOnWhite()==true ? Color.WHITE:Color.BLUE);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    Context context =v.getContext();
+
                     if (isClick==false) {
                         v.setBackgroundColor(Color.CYAN);
+
+
+                        Intent mNewIntent = new Intent(context, FourthActivity.class);
+
+                        //mNewIntent.putExtra(msfString,"MainActivity1");
+                        context.startActivity(mNewIntent);
                         isClick=true;
                     }
                     else{

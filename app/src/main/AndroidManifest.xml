@@ -28,7 +28,7 @@
             android:exported="false" />
 
         <receiver
-            android:name=".MySettingsReceiver"
+            android:name=".GetSettingsReceiver"
             android:enabled="true"
             android:exported="true"></receiver>
     </application>

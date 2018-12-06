@@ -15,7 +15,7 @@ import android.util.Log;
 public class MyIntentServiceOne extends IntentService {
     //
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-
+    //private SettingsStorage mSettingStorage;
 
     public MyIntentServiceOne() {
         super(Param.IntentService);
@@ -56,9 +56,15 @@ public class MyIntentServiceOne extends IntentService {
         context.startService(intent);
     }
 
-    public static void startActionSetting(Context context, SettingsBin param1) {
+    public static void startGetActionSetting(Context context) {
         Intent intent = new Intent(context, MyIntentServiceOne.class);
-        intent.setAction(Param.ACTION_SETTING);
+        intent.setAction(Param.ACTION_GETSETTING);
+        context.startService(intent);
+    }
+
+    public static void startSetActionSetting(Context context, SettingsBin param1) {
+        Intent intent = new Intent(context, MyIntentServiceOne.class);
+        intent.setAction(Param.ACTION_SETSETTING);
 
         String Result ="";
         if (param1!=null) {
@@ -83,6 +89,7 @@ public class MyIntentServiceOne extends IntentService {
         if (intent != null) {
             final Param.ActionEnum action = Param.getTypeAction(intent.getAction());
 
+
             switch (action) {
                 case List:
                     final String param1 = intent.getStringExtra(Param.LOADLIST);
@@ -97,9 +104,12 @@ public class MyIntentServiceOne extends IntentService {
                     final String param3 = intent.getStringExtra(Param.UPDATE);
                     handleActionUpdate(param3);
                     break;
-                case Settings:
+                case GetSettings:
+                    handleActionGetSetting();
+                    break;
+                case SetSettings:
                     final String param4 = intent.getStringExtra(Param.SETTING);
-                    handleActionSetting(param4);
+                    handleActionSetSetting(param4);
                     break;
                 case Other:
                     Log.d(Param.TAG, "onHandleIntent Other!!!");
@@ -130,27 +140,42 @@ public class MyIntentServiceOne extends IntentService {
         //throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    private void handleActionSetting(String param1) {
-        // TODO: Handle action Setting
-        Log.d(Param.TAG, "handleActionSetting: param1="+param1);
 
-        // Тут логика: если param1="", то просто достаем данные из БД и оповещаем
-        // Иначе сохраняем в БД обновление
+    private void handleActionGetSetting() {
+        // : Handle action Setting
 
         SettingsBin mSettings;
+        SettingsStorage mSettingStorage = new SettingsStorage(this);
+
+        //  типа достали из sharedPreferences
+        mSettings =mSettingStorage.getSb();
+        // Тут передаем результат
+        Intent responseIntent = new Intent();
+        responseIntent.setAction(Param.FILTER_ACTION_GET_SETTING);
+        responseIntent.addCategory(Intent.CATEGORY_DEFAULT);
+
+        responseIntent.putExtra(Param.SETTING, SettingsBin.ToJSON(mSettings));
+        Log.d(Param.TAG, "handleActionGetSetting sendBroadcast");
+        sendBroadcast(responseIntent);
+
+
+        //throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private void handleActionSetSetting(String param1) {
+        Log.d(Param.TAG, "handleActionSetSetting: param1="+param1);
 
         if (!param1.equals("")){
+            //сохраняем в sharedPreferences обновление
+            SettingsBin mSettings;
+            SettingsStorage mSettingStorage = new SettingsStorage(this);
             //Если не пусто
             mSettings = SettingsBin.FromJSON(param1);
             // То типа сохраняем в БД и все. Никому ничего не говорим.
-            Log.d(Param.TAG, "handleActionSetting сохранение  ismIsBlackOnWhite=" +mSettings.ismIsBlackOnWhite()+" ismIsBigFont="+mSettings.ismIsBigFont());
+            mSettingStorage.setSb(mSettings);
+            Log.d(Param.TAG, "сохранение:  ismIsBlackOnWhite=" +mSettings.ismIsBlackOnWhite()+" ismIsBigFont="+mSettings.ismIsBigFont());
 
-        }
-        else {
-            //Если пусто
-            // то типа достали из БД
-            mSettings = new SettingsBin(true,true);
-            // Тут передаем результат
+ /*           // Тут передаем результат
             Intent responseIntent = new Intent();
             responseIntent.setAction(Param.FILTER_ACTION_GET_SETTING);
             //TO-DO Подумать над категорией!!
@@ -158,9 +183,10 @@ public class MyIntentServiceOne extends IntentService {
 
             responseIntent.putExtra(Param.SETTING, SettingsBin.ToJSON(mSettings));
             Log.d(Param.TAG, "handleActionSetting sendBroadcast");
-            sendBroadcast(responseIntent);
+            sendBroadcast(responseIntent);*/
 
         }
+
 
         //throw new UnsupportedOperationException("Not yet implemented");
     }

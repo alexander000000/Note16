@@ -2,7 +2,7 @@ package av.shangin.lessons16;
 
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private Intent mNewIntent;
     private Intent mSettingIntent;
     private GetSettingsReceiver mMyBroadcastReceiver;
-    private SettingsBin mSettingBin;
+    //private SettingsBin mSettingBin;
+    //private View mItemLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
         mNewButton = findViewById(R.id.buttonNew);
         mSettingButton = findViewById(R.id.buttonSettings);
 
+
+        //Запуск сервиса получение настройки
+        MyIntentServiceOne.startGetActionSetting(MainActivity.this);
+
+
         mNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,15 +66,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                //Запуск сервиса настройки без параметра, что бы достать настроки
-                MyIntentServiceOne.startActionSetting(MainActivity.this,null);
+
 
                 //Тут переход в другой активити
                 mSettingIntent = new Intent(MainActivity.this, SecondActivity.class);
                 startActivity(mSettingIntent);
             }
         });
-        Log.d(Param.TAG, "onCreate MainActivity ");
+
     }
 
     @Override
@@ -96,8 +101,12 @@ public class MainActivity extends AppCompatActivity {
         public void setSetting(String param4)
         {
              if (!param4.equals("")){
-                mSettingBin = SettingsBin.FromJSON(param4);
-                 Log.d(Param.TAG, "ViewCallBackSettingMain setSetting  ismIsBlackOnWhite=" +mSettingBin.ismIsBlackOnWhite()+" ismIsBigFont="+mSettingBin.ismIsBigFont());
+                 SettingsBin mSettingBin = SettingsBin.FromJSON(param4);
+
+                 //if (mItemLayout!=null) mItemLayout.setBackgroundColor(mSettingBin.ismIsBlackOnWhite()==true ? Color.WHITE:Color.BLUE);
+
+
+                Log.d(Param.TAG, "ViewCallBackSettingMain setSetting  ismIsBlackOnWhite=" +mSettingBin.ismIsBlackOnWhite()+" ismIsBigFont="+mSettingBin.ismIsBigFont());
 
              }
 

@@ -20,8 +20,8 @@
     <string name="newButtonNew">Create</string>
     <string name="newButtonSettings">Settings</string>
     <string name="settings_MainText">Set Settings</string>
-    <string name="settings_switch1">Setting 1</string>
-    <string name="settings_switch2">Setting 2</string>
+    <string name="settings_switch1">BackGround color is white</string>
+    <string name="settings_switch2">Font is Big</string>
     <string name="newButtonSave">Save</string>
     <string name="newTextHeader">Header</string>
     <string name="newTextExampleHeader">input header</string>
