@@ -91,8 +91,6 @@ public class ListItemActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-
-
                 //Тут переход в другой активити
                 mSettingIntent = new Intent(ListItemActivity.this, SettingActivity.class);
                 startActivity(mSettingIntent);
