@@ -54,7 +54,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guidelineHorizont"
-        tools:context=".ListItemActivity">
+        tools:context=".activity.ListItemActivity">
 
 
     </android.support.v7.widget.RecyclerView>

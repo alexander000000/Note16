@@ -12,27 +12,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListItemActivity">
+        <activity android:name=".activity.ListItemActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewItemActivity" />
-        <activity android:name=".SettingActivity" />
-        <activity android:name=".EditActivity" />
+        <activity android:name=".activity.NewItemActivity" />
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.EditActivity" />
 
         <service
-            android:name=".MyIntentServiceOne"
+            android:name=".communication.MyIntentServiceOne"
             android:exported="false" />
 
         <receiver
-            android:name=".GetSettingsReceiver"
+            android:name=".communication.GetSettingsReceiver"
             android:enabled="true"
             android:exported="false" />
         <receiver
-            android:name=".GetNotesReceiver"
+            android:name=".communication.GetNotesReceiver"
             android:enabled="true"
             android:exported="true"></receiver>
     </application>

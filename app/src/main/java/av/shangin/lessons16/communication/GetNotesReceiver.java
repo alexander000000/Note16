@@ -1,12 +1,13 @@
-package av.shangin.lessons16;
+package av.shangin.lessons16.communication;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import av.shangin.lessons16.beans.NoteBean;
+import av.shangin.lessons16.utils.Param;
 
 public class GetNotesReceiver extends BroadcastReceiver {
 
@@ -30,7 +31,7 @@ public class GetNotesReceiver extends BroadcastReceiver {
 
             //final String[] param4 = intent.getStringExtra(Param.LOADLIST);
 
-            ArrayList<NoteBin> notes= NoteBin.FromJSONList(param4);
+            ArrayList<NoteBean> notes= NoteBean.FromJSONList(param4);
             //if (notes!=null) Log.d(Param.TAG, "GetNotesReceiver notes.size()="+notes.size());
             //else Log.d(Param.TAG, "GetNotesReceiver notes===null");
             this.mViewCallback.setNotes(notes);

@@ -1,10 +1,10 @@
-package av.shangin.lessons16;
+package av.shangin.lessons16.communication;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.util.AsyncListUtil;
-import android.util.Log;
+
+import av.shangin.lessons16.utils.Param;
 
 public class GetSettingsReceiver extends BroadcastReceiver {
 

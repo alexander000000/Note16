@@ -1,4 +1,4 @@
-package av.shangin.lessons16;
+package av.shangin.lessons16.communication;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -6,7 +6,12 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import av.shangin.lessons16.beans.NoteBean;
+import av.shangin.lessons16.beans.SettingsBean;
+import av.shangin.lessons16.utils.DBManager;
+import av.shangin.lessons16.utils.Param;
+import av.shangin.lessons16.utils.SettingsStorage;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -40,15 +45,15 @@ public class MyIntentServiceOne extends IntentService {
         context.startService(intent);
     }
 
-    public static void startActionCreate(Context context, NoteBin param1) {
+    public static void startActionCreate(Context context, NoteBean param1) {
         Intent intent = new Intent(context, MyIntentServiceOne.class);
         intent.setAction(Param.ACTION_CREATE);
 
         //Если параметр null не передаем его!!!
         if (param1!=null) {
 
-            String Result =NoteBin.ToJSON(param1);
-            //Log.d(Param.TAG2, "NoteBin.ToJSON(param1) "+Result);
+            String Result = NoteBean.ToJSON(param1);
+            //Log.d(Param.TAG2, "NoteBean.ToJSON(param1) "+Result);
 
             intent.putExtra(Param.CREATE, Result);
 
@@ -57,12 +62,12 @@ public class MyIntentServiceOne extends IntentService {
         context.startService(intent);
     }
 
-    public static void startActionUpdate(Context context, NoteBin param1) {
+    public static void startActionUpdate(Context context, NoteBean param1) {
         Intent intent = new Intent(context, MyIntentServiceOne.class);
         intent.setAction(Param.ACTION_UPDATE);
 
         String Result ="";
-        if (param1!=null) Result =NoteBin.ToJSON(param1);
+        if (param1!=null) Result = NoteBean.ToJSON(param1);
 
         intent.putExtra(Param.UPDATE, Result);
         context.startService(intent);
@@ -74,13 +79,13 @@ public class MyIntentServiceOne extends IntentService {
         context.startService(intent);
     }
 
-    public static void startSetActionSetting(Context context, SettingsBin param1) {
+    public static void startSetActionSetting(Context context, SettingsBean param1) {
         Intent intent = new Intent(context, MyIntentServiceOne.class);
         intent.setAction(Param.ACTION_SETSETTING);
 
         String Result ="";
         if (param1!=null) {
-            Result = SettingsBin.ToJSON(param1);
+            Result = SettingsBean.ToJSON(param1);
         }
         // Тут выше просто провери param1 пришел или нет. Это что бы null не передавать, а пустую строку
         intent.putExtra(Param.SETTING,Result);
@@ -136,7 +141,7 @@ public class MyIntentServiceOne extends IntentService {
 
     private void handleActionLoadList(long param1) {
         //: Handle action LoadList
-        ArrayList<NoteBin> notes;// = new ArrayList<NoteBin>();
+        ArrayList<NoteBean> notes;// = new ArrayList<NoteBean>();
 
         DBManager dbManager = new DBManager(this);
         // получаю список из БД
@@ -153,7 +158,7 @@ public class MyIntentServiceOne extends IntentService {
         responseIntent.setAction(Param.FILTER_ACTION_LOADLIST);
         responseIntent.addCategory(Intent.CATEGORY_DEFAULT);
 
-        responseIntent.putExtra(Param.LOADLIST, NoteBin.ToJSONList(notes));
+        responseIntent.putExtra(Param.LOADLIST, NoteBean.ToJSONList(notes));
 
         sendBroadcast(responseIntent);
 
@@ -162,7 +167,7 @@ public class MyIntentServiceOne extends IntentService {
 
     private void handleActionCreate(String param1) {
         //  Handle action Create
-        NoteBin nb = NoteBin.FromJSON(param1);
+        NoteBean nb = NoteBean.FromJSON(param1);
 
         DBManager dbManager = new DBManager(this);
 
@@ -174,7 +179,7 @@ public class MyIntentServiceOne extends IntentService {
 
     private void handleActionUpdate(String param1) {
         //
-        NoteBin nb = NoteBin.FromJSON(param1);
+        NoteBean nb = NoteBean.FromJSON(param1);
 
         DBManager dbManager = new DBManager(this);
 
@@ -187,7 +192,7 @@ public class MyIntentServiceOne extends IntentService {
     private void handleActionGetSetting() {
         // : Handle action Setting
 
-        SettingsBin mSettings;
+        SettingsBean mSettings;
         SettingsStorage mSettingStorage = new SettingsStorage(this);
 
         //  типа достали из sharedPreferences
@@ -197,7 +202,7 @@ public class MyIntentServiceOne extends IntentService {
         responseIntent.setAction(Param.FILTER_ACTION_GET_SETTING);
         responseIntent.addCategory(Intent.CATEGORY_DEFAULT);
 
-        responseIntent.putExtra(Param.SETTING, SettingsBin.ToJSON(mSettings));
+        responseIntent.putExtra(Param.SETTING, SettingsBean.ToJSON(mSettings));
         //Log.d(Param.NOT, "handleActionGetSetting sendBroadcast");
         sendBroadcast(responseIntent);
 
@@ -210,10 +215,10 @@ public class MyIntentServiceOne extends IntentService {
 
         if (!param1.equals("")){
             //сохраняем в sharedPreferences обновление
-            SettingsBin mSettings;
+            SettingsBean mSettings;
             SettingsStorage mSettingStorage = new SettingsStorage(this);
             //Если не пусто
-            mSettings = SettingsBin.FromJSON(param1);
+            mSettings = SettingsBean.FromJSON(param1);
             // То типа сохраняем в БД и все. Никому ничего не говорим.
             mSettingStorage.setSb(mSettings);
             //Log.d(Param.NOT, "сохранение:  ismIsBlackOnWhite=" +mSettings.ismIsBlackOnWhite()+" ismIsBigFont="+mSettings.ismIsBigFont());
