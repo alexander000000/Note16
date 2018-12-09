@@ -30,7 +30,7 @@ public class SettingsStorage {
         }
         catch (Exception e )
         {
-            Log.d(Param.TAG, "Exception: e="+e.toString());
+            Log.d(Param.ERROR, "Exception: e="+e.toString());
         }
 
     }

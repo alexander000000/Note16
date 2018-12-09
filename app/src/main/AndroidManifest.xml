@@ -12,16 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ListItemActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ThirdActivity"></activity>
-        <activity android:name=".SecondActivity" />
-        <activity android:name=".FourthActivity" />
+        <activity android:name=".NewItemActivity" />
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".EditActivity" />
 
         <service
             android:name=".MyIntentServiceOne"
@@ -29,6 +29,10 @@
 
         <receiver
             android:name=".GetSettingsReceiver"
+            android:enabled="true"
+            android:exported="false" />
+        <receiver
+            android:name=".GetNotesReceiver"
             android:enabled="true"
             android:exported="true"></receiver>
     </application>

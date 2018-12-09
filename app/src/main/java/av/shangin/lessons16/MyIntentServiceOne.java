@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
@@ -28,20 +31,29 @@ public class MyIntentServiceOne extends IntentService {
      * @see IntentService
      */
     //
-    public static void startActionLoadList(Context context, String param1) {
+    public static void startActionLoadList(Context context, long paramL) {
         Intent intent = new Intent(context, MyIntentServiceOne.class);
         intent.setAction(Param.ACTION_LOADLIST);
-        intent.putExtra(Param.LOADLIST, param1);
+
+        intent.putExtra(Param.LOADLIST, paramL);
+        //Log.d(Param.TAG, "startActionLoadList paramL="+paramL);
         context.startService(intent);
     }
 
     public static void startActionCreate(Context context, NoteBin param1) {
         Intent intent = new Intent(context, MyIntentServiceOne.class);
         intent.setAction(Param.ACTION_CREATE);
-        String Result ="";
-        if (param1!=null) Result =param1.toString();
 
-        intent.putExtra(Param.CREATE, Result);
+        //Если параметр null не передаем его!!!
+        if (param1!=null) {
+
+            String Result =NoteBin.ToJSON(param1);
+            //Log.d(Param.TAG2, "NoteBin.ToJSON(param1) "+Result);
+
+            intent.putExtra(Param.CREATE, Result);
+
+        }
+
         context.startService(intent);
     }
 
@@ -50,7 +62,7 @@ public class MyIntentServiceOne extends IntentService {
         intent.setAction(Param.ACTION_UPDATE);
 
         String Result ="";
-        if (param1!=null) Result =param1.toString();
+        if (param1!=null) Result =NoteBin.ToJSON(param1);
 
         intent.putExtra(Param.UPDATE, Result);
         context.startService(intent);
@@ -85,14 +97,14 @@ public class MyIntentServiceOne extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        Log.d(Param.TAG, "MyIntentServiceOne. onHandleIntent");
+        //Log.d(Param.NOT, "MyIntentServiceOne. onHandleIntent");
         if (intent != null) {
             final Param.ActionEnum action = Param.getTypeAction(intent.getAction());
 
 
             switch (action) {
                 case List:
-                    final String param1 = intent.getStringExtra(Param.LOADLIST);
+                    final long param1 = intent.getLongExtra(Param.LOADLIST,-1);
                     handleActionLoadList(param1);
                     break;
                 case Create:
@@ -122,21 +134,52 @@ public class MyIntentServiceOne extends IntentService {
      * parameters.
      */
 
-    private void handleActionLoadList(String param1) {
-        // TODO: Handle action LoadList
-        Log.d(Param.TAG, "handleActionLoadList: param1="+param1);
-        //throw new UnsupportedOperationException("Not yet implemented");
+    private void handleActionLoadList(long param1) {
+        //: Handle action LoadList
+        ArrayList<NoteBin> notes;// = new ArrayList<NoteBin>();
+
+        DBManager dbManager = new DBManager(this);
+        // получаю список из БД
+        //Log.d(Param.TAG, "Before  getNote  param1="+param1);
+        notes =dbManager.getNote(param1);
+/*        if (notes!=null) {
+            Log.d(Param.TAG, "handleActionLoadList notes.size()="+notes.size());
+            //Log.d(Param.TAG, "get(0).getHeader()="+notes.get(0).getHeader());
+        }
+        else {
+            Log.d(Param.TAG, "handleActionLoadList notes is NULL!");
+        }*/
+        Intent responseIntent = new Intent();
+        responseIntent.setAction(Param.FILTER_ACTION_LOADLIST);
+        responseIntent.addCategory(Intent.CATEGORY_DEFAULT);
+
+        responseIntent.putExtra(Param.LOADLIST, NoteBin.ToJSONList(notes));
+
+        sendBroadcast(responseIntent);
+
+
     }
 
     private void handleActionCreate(String param1) {
-        // TODO: Handle action Create
-        Log.d(Param.TAG, "handleActionCreate: param1="+param1);
+        //  Handle action Create
+        NoteBin nb = NoteBin.FromJSON(param1);
+
+        DBManager dbManager = new DBManager(this);
+
+        dbManager.addNote(nb);
+
+        //Log.d(Param.TAG2, "handleActionCreate: nb="+nb.toString());
         //throw new UnsupportedOperationException("Not yet implemented");
     }
 
     private void handleActionUpdate(String param1) {
-        // TODO: Handle action Update
-        Log.d(Param.TAG, "handleActionUpdate: param1="+param1);
+        //
+        NoteBin nb = NoteBin.FromJSON(param1);
+
+        DBManager dbManager = new DBManager(this);
+
+        dbManager.updateNote(nb);
+        Log.d(Param.TAG, "handleActionUpdate: nb.getHeader="+nb.getHeader());
         //throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -155,7 +198,7 @@ public class MyIntentServiceOne extends IntentService {
         responseIntent.addCategory(Intent.CATEGORY_DEFAULT);
 
         responseIntent.putExtra(Param.SETTING, SettingsBin.ToJSON(mSettings));
-        Log.d(Param.TAG, "handleActionGetSetting sendBroadcast");
+        //Log.d(Param.NOT, "handleActionGetSetting sendBroadcast");
         sendBroadcast(responseIntent);
 
 
@@ -163,7 +206,7 @@ public class MyIntentServiceOne extends IntentService {
     }
 
     private void handleActionSetSetting(String param1) {
-        Log.d(Param.TAG, "handleActionSetSetting: param1="+param1);
+        //Log.d(Param.NOT, "handleActionSetSetting: param1="+param1);
 
         if (!param1.equals("")){
             //сохраняем в sharedPreferences обновление
@@ -173,22 +216,10 @@ public class MyIntentServiceOne extends IntentService {
             mSettings = SettingsBin.FromJSON(param1);
             // То типа сохраняем в БД и все. Никому ничего не говорим.
             mSettingStorage.setSb(mSettings);
-            Log.d(Param.TAG, "сохранение:  ismIsBlackOnWhite=" +mSettings.ismIsBlackOnWhite()+" ismIsBigFont="+mSettings.ismIsBigFont());
+            //Log.d(Param.NOT, "сохранение:  ismIsBlackOnWhite=" +mSettings.ismIsBlackOnWhite()+" ismIsBigFont="+mSettings.ismIsBigFont());
 
- /*           // Тут передаем результат
-            Intent responseIntent = new Intent();
-            responseIntent.setAction(Param.FILTER_ACTION_GET_SETTING);
-            //TO-DO Подумать над категорией!!
-            responseIntent.addCategory(Intent.CATEGORY_DEFAULT);
-
-            responseIntent.putExtra(Param.SETTING, SettingsBin.ToJSON(mSettings));
-            Log.d(Param.TAG, "handleActionSetting sendBroadcast");
-            sendBroadcast(responseIntent);*/
 
         }
-
-
-        //throw new UnsupportedOperationException("Not yet implemented");
     }
 
 }

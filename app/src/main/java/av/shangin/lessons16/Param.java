@@ -4,6 +4,7 @@ public final class Param {
 
     //param name
     public final static String POS = "POSITION";
+    //
     public final static String LOADLIST = "LOAD";
     public final static String CREATE = "CREATE";
     public final static String UPDATE = "UPDATE";
@@ -38,6 +39,10 @@ public final class Param {
     // help name
     public final static String IntentService = "MyIntentServiceOne";
     public final static String TAG = "NOTE";
+    public final static String NOT = "NOT";
+    public final static String TAG2 = "NOTE2";
+    public final static String DB = "NOTE_DB";
+    public final static String ERROR = "NOTE_ERROR";
 
     public static ActionEnum getTypeAction(String action){
 

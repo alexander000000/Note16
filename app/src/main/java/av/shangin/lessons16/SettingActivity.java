@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 
-public class SecondActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity {
     //Setting  setting_layout
     private Button mButtonОК;
     private Intent mMainList;
@@ -37,7 +37,7 @@ public class SecondActivity extends AppCompatActivity {
         mItemLayout= findViewById(R.id.SettingLayout);
 
         //Запуск сервиса получение настройки
-        MyIntentServiceOne.startGetActionSetting(SecondActivity.this);
+        MyIntentServiceOne.startGetActionSetting(SettingActivity.this);
 
         //по дефолту
         //mSwitchIsBlackOnWhite.setChecked(false);
@@ -46,15 +46,15 @@ public class SecondActivity extends AppCompatActivity {
         mButtonОК.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMainList = new Intent(SecondActivity.this, MainActivity.class);
+                mMainList = new Intent(SettingActivity.this, ListItemActivity.class);
 
 
                 SettingsBin mSB =new SettingsBin();
                 mSB.setmIsBlackOnWhite(mSwitchIsBlackOnWhite.isChecked());
                 mSB.setmIsBigFont(mSwitchIsBigFont.isChecked());
                 //Запуск сервиса сохранение настройки
-                Log.d(Param.TAG, "setOnClickListener setmIsBlackOnWhite="+mSB.ismIsBlackOnWhite()+" setmIsBigFont="+(mSB.ismIsBigFont()));
-                MyIntentServiceOne.startSetActionSetting(SecondActivity.this,mSB);
+                Log.d(Param.NOT, "setOnClickListener setmIsBlackOnWhite="+mSB.ismIsBlackOnWhite()+" setmIsBigFont="+(mSB.ismIsBigFont()));
+                MyIntentServiceOne.startSetActionSetting(SettingActivity.this,mSB);
 
 
                 startActivity(mMainList);
@@ -87,7 +87,7 @@ public class SecondActivity extends AppCompatActivity {
 
         public void setSetting(String param4)
         {
-            Log.d(Param.TAG, "ViewCallBackSettingSecond setSetting!!!");
+            Log.d(Param.NOT, "ViewCallBackSettingSecond setSetting!!!");
             if (!param4.equals("")){
                 SettingsBin mSettingBin = SettingsBin.FromJSON(param4);
 

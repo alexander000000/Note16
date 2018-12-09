@@ -16,7 +16,9 @@
     <string name="fragmentButton_3">Button 3</string>
     <string name="fragmentButton_4">Button 4</string>
     <string name="fragmentText">fragmentText</string>
-    <string name="colorText">red</string>
+    <string name="simpleTitle">Simple Header</string>
+    <string name="simpleDate">01.01.18  00:00:00</string>
+    <string name="lastUpdate">Last update</string>
     <string name="newButtonNew">Create</string>
     <string name="newButtonSettings">Settings</string>
     <string name="settings_MainText">Set Settings</string>
