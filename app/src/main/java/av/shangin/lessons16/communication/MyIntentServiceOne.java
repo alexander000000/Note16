@@ -3,6 +3,7 @@ package av.shangin.lessons16.communication;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import av.shangin.lessons16.beans.NoteBean;
 import av.shangin.lessons16.beans.SettingsBean;
 import av.shangin.lessons16.utils.DBManager;
+import av.shangin.lessons16.utils.GSStorage;
 import av.shangin.lessons16.utils.Param;
 import av.shangin.lessons16.utils.SettingsStorage;
 
@@ -91,6 +93,21 @@ public class MyIntentServiceOne extends IntentService {
         intent.putExtra(Param.SETTING,Result);
         context.startService(intent);
     }
+
+
+
+    public static void startGetGS(Context context) {
+        Intent intent = new Intent(context, MyIntentServiceOne.class);
+        intent.setAction(Param.ACTION_GET_GS);
+        context.startService(intent);
+    }
+
+    public static void startSetGS(Context context, int color) {
+        Intent intent = new Intent(context, MyIntentServiceOne.class);
+        intent.putExtra(Param.COLOR,color);
+        intent.setAction(Param.ACTION_SET_GS);
+        context.startService(intent);
+    }
     /**
      * Starts this service to perform action Baz with the given parameters. If
      * the service is already performing a task this action will be queued.
@@ -127,6 +144,13 @@ public class MyIntentServiceOne extends IntentService {
                 case SetSettings:
                     final String param4 = intent.getStringExtra(Param.SETTING);
                     handleActionSetSetting(param4);
+                    break;
+                case GetGS:
+                    handleActionGetGS();
+                    break;
+                case SetGS:
+                    final int param0 = intent.getIntExtra(Param.COLOR,0);
+                    handleActionSetGS(param0);
                     break;
                 case Other:
                     Log.d(Param.TAG, "onHandleIntent Other!!!");
@@ -225,6 +249,48 @@ public class MyIntentServiceOne extends IntentService {
 
 
         }
+    }
+
+    private void handleActionGetGS() {
+        // : Handle action Setting
+
+
+        GSStorage mGSStorage = new GSStorage(this);
+
+        //  типа достали из sharedPreferences
+        // Тут передаем результат
+        Intent responseIntent = new Intent();
+        responseIntent.setAction(Param.FILTER_ACTION_GET_GS);
+        responseIntent.addCategory(Intent.CATEGORY_DEFAULT);
+
+        responseIntent.putExtra(Param.COLOR, mGSStorage.getColor());
+        //Log.d(Param.NOT, "handleActionGetSetting sendBroadcast");
+        sendBroadcast(responseIntent);
+
+
+        //throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private void handleActionSetGS(int param1) {
+        //Log.d(Param.NOT, "handleActionSetSetting: param1="+param1);
+
+
+            //сохраняем в sharedPreferences обновление
+            GSStorage mGSStorage = new GSStorage(this);
+            mGSStorage.setColor(param1);
+
+            Intent responseIntent = new Intent();
+            // вызываем все равно get - что бы обновился
+            responseIntent.setAction(Param.FILTER_ACTION_GET_GS);
+            responseIntent.addCategory(Intent.CATEGORY_DEFAULT);
+
+            responseIntent.putExtra(Param.COLOR, mGSStorage.getColor());
+            //Log.d(Param.NOT, "handleActionGetSetting sendBroadcast");
+            sendBroadcast(responseIntent);
+            //Log.d(Param.NOT, "сохранение:  ismIsBlackOnWhite=" +mSettings.ismIsBlackOnWhite()+" ismIsBigFont="+mSettings.ismIsBigFont());
+
+
+
     }
 
 }

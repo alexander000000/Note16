@@ -60,7 +60,7 @@ public class SettingActivity extends AppCompatActivity {
                 mSB.setmIsBlackOnWhite(mSwitchIsBlackOnWhite.isChecked());
                 mSB.setmIsBigFont(mSwitchIsBigFont.isChecked());
                 //Запуск сервиса сохранение настройки
-                Log.d(Param.NOT, "setOnClickListener setmIsBlackOnWhite="+mSB.ismIsBlackOnWhite()+" setmIsBigFont="+(mSB.ismIsBigFont()));
+                //Log.d(Param.NOT, "setOnClickListener setmIsBlackOnWhite="+mSB.ismIsBlackOnWhite()+" setmIsBigFont="+(mSB.ismIsBigFont()));
                 MyIntentServiceOne.startSetActionSetting(SettingActivity.this,mSB);
 
 
@@ -94,11 +94,15 @@ public class SettingActivity extends AppCompatActivity {
 
         public void setSetting(String param4)
         {
-            Log.d(Param.NOT, "ViewCallBackSettingSecond setSetting!!!");
+            //Log.d(Param.NOT, "ViewCallBackSettingSecond setSetting!!!");
             if (!param4.equals("")){
                 SettingsBean mSettingBin = SettingsBean.FromJSON(param4);
 
-                if (mItemLayout!=null) mItemLayout.setBackgroundColor(mSettingBin.ismIsBlackOnWhite()==true ? Color.WHITE:Color.BLUE);
+                if (mSettingBin.ismIsBigFont()==true) Param.onBigFont();
+                else Param.offBigFont();
+
+
+                if (mItemLayout!=null) mItemLayout.setBackgroundColor(mSettingBin.ismIsBlackOnWhite()==true ? Param.COLOR_0:Param.COLOR_1);
                 mSwitchIsBlackOnWhite.setChecked(mSettingBin.ismIsBlackOnWhite());
                 mSwitchIsBigFont.setChecked(mSettingBin.ismIsBigFont());
             }

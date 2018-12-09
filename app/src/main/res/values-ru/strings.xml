@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Самый простой блокнот</string>
+    <string name="lastUpdate">изменено</string>
+    <string name="newButtonOK">Согласен</string>
+    <string name="EditTextBody">Поле для ввода тела заметки</string>
+    <string name="EditTextHeader">Поле для ввода заголовка заметки</string>
+    <string name="newButtonCancel">Отмена</string>
+    <string name="newButtonUpdate">Обновить</string>
+    <string name="newTextExampleBody">Введите текст заметки</string>
+    <string name="newTextBody">Тело заметки</string>
+    <string name="newTextExampleHeader">Введите заголовок</string>
+    <string name="newTextHeader">Заголовок</string>
+    <string name="newButtonSave">Сохранить</string>
+    <string name="settings_switch2">Шрифт большой</string>
+    <string name="settings_switch1">Цвет фона белый?</string>
+    <string name="settings_MainText">Установка настроек</string>
+    <string name="newButtonSettings">Настройки</string>
+    <string name="newButtonNew">Создать</string>
+    <string name="main">1</string>
+    <string name="mainButton">2</string>
+    <string name="second">3</string>
+    <string name="third">4</string>
+    <string name="fourth">5</string>
+    <string name="fourth2">6</string>
+    <string name="second_1">7</string>
+    <string name="second_2">8</string>
+    <string name="fourthButton">9</string>
+    <string name="thirdButton">10</string>
+    <string name="secondButton">11</string>
+    <string name="fragmentButton_1">12</string>
+    <string name="fragmentButton_2">13</string>
+    <string name="fragmentButton_3">14</string>
+    <string name="fragmentButton_4">15</string>
+    <string name="fragmentText">16</string>
+    <string name="simpleTitle">17</string>
+    <string name="simpleDate">18</string>
+</resources>

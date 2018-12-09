@@ -137,9 +137,9 @@ public class ListItemActivity extends AppCompatActivity {
                  SettingsBean mSettingBin = SettingsBean.FromJSON(param4);
 
                  //if (mItemLayout!=null) mItemLayout.setBackgroundColor(mSettingBin.ismIsBlackOnWhite()==true ? Color.WHITE:Color.BLUE);
-
-
-                Log.d(Param.NOT, "ViewCallBackSettingMain setSetting  ismIsBlackOnWhite=" +mSettingBin.ismIsBlackOnWhite()+" ismIsBigFont="+mSettingBin.ismIsBigFont());
+                 //Тут надо передать в адаптер новую настройку!
+                 //mRecycleListAdapter
+                //Log.d(Param.TAG, "setSetting in LISTACtivity ismIsBlackOnWhite=" +mSettingBin.ismIsBlackOnWhite()+" ismIsBigFont="+mSettingBin.ismIsBigFont());
 
              }
 
@@ -153,19 +153,7 @@ public class ListItemActivity extends AppCompatActivity {
         public void setNotes(ArrayList<NoteBean> notes) {
             //Log.d(Param.TAG, "145 Before mRecycleListAdapter.LoadList(notes) notes.size="+notes.size());
             mRecycleListAdapter.AddItem(notes);
-            mRecycleListAdapter.notifyDataSetChanged();
-
-            //recyclerView.setAdapter(new RecycleListAdapter(notes));
-            //recyclerView.setLayoutManager(new LinearLayoutManager(ListItemActivity.this));
-            //GridLayoutManager(this,2));
-
-            // notify adapter about data set changes
-            // so that it will render the list with new data
-            //mAdapter.notifyDataSetChanged();
-            //mRecycleListAdapter.LoadList(notes);
-            //recyclerView.getAdapter();
-            //if(notes!=null) Log.d(Param.TAG, "ViewCallBackNotesMain notes.size="+notes.size());
-            //else Log.d(Param.TAG, "ViewCallBackNotesMain notes==NULL ");
+            mRecycleListAdapter.notifyDataSetChanged();//Это для обновления записей!!
 
         }
     }

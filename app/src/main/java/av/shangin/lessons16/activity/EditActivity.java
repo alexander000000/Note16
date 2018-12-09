@@ -19,6 +19,7 @@ import av.shangin.lessons16.communication.GetSettingsReceiver;
 import av.shangin.lessons16.communication.MyIntentServiceOne;
 import av.shangin.lessons16.communication.INotes;
 import av.shangin.lessons16.communication.ISettings;
+import av.shangin.lessons16.utils.MyApplication;
 import av.shangin.lessons16.utils.Param;
 
 public class EditActivity extends AppCompatActivity {
@@ -45,6 +46,10 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.edit_item_layout);
 
         mItemLayout= findViewById(R.id.editLayout);
+
+        MyApplication app = ((MyApplication) getApplicationContext());
+        int color=app.getCurruntColor();
+
         //Запуск сервиса получение настройки
         MyIntentServiceOne.startGetActionSetting(EditActivity.this);
 
@@ -133,7 +138,7 @@ public class EditActivity extends AppCompatActivity {
             if (!param4.equals("")){
                 SettingsBean mSettingBin = SettingsBean.FromJSON(param4);
 
-                if (mItemLayout!=null) mItemLayout.setBackgroundColor(mSettingBin.ismIsBlackOnWhite()==true ? Color.WHITE:Color.BLUE);
+                if (mItemLayout!=null) mItemLayout.setBackgroundColor(mSettingBin.ismIsBlackOnWhite()==true ? Param.COLOR_0:Param.COLOR_1);
 
             }
 

@@ -96,7 +96,7 @@ public class NewItemActivity extends AppCompatActivity {
 
                 if (mItemLayout!=null){
 
-                    mItemLayout.setBackgroundColor(mSettingBin.ismIsBlackOnWhite()==true ? Color.WHITE:Color.BLUE);
+                    mItemLayout.setBackgroundColor(mSettingBin.ismIsBlackOnWhite()==true ? Param.COLOR_0:Param.COLOR_1);
                 }
 
 

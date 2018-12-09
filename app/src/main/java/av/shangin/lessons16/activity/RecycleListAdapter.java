@@ -2,6 +2,7 @@ package av.shangin.lessons16.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,6 +22,8 @@ public class RecycleListAdapter extends RecyclerView.Adapter<RecycleListAdapter.
     private ArrayList<NoteBean> mNoteList;//= new ArrayList<NoteBean>();
     //private final static int LIMIT = 256;
     //private final static int STEP = 64;
+
+
 
     public RecycleListAdapter() {
         mNoteList = new ArrayList<NoteBean>();
@@ -84,6 +87,8 @@ public class RecycleListAdapter extends RecyclerView.Adapter<RecycleListAdapter.
         //Log.d(Param.TAG, "AddItem mNoteList.size()=" + mNoteList.size());
     }
 
+
+
 // - класс holder для RecycleListAdapter для recyclerView
     public static class Holder2 extends RecyclerView.ViewHolder{
 
@@ -142,6 +147,8 @@ public class RecycleListAdapter extends RecyclerView.Adapter<RecycleListAdapter.
                 //Log.d(Param.TAG, "Bind noteBean != null");
                 mViewTitle.setText(mNoteBean.getHeader());
                 mViewLastUpdate.setText(mNoteBean.getHumanDate());
+
+                //if (mItemLayout!=null) mItemLayout.setBackgroundColor(mSettingBin.ismIsBlackOnWhite()==true ? Param.COLOR_0:Param.COLOR_1);
             }
             //else Log.d(Param.TAG, "Bind noteBean is null");
         }
